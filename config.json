@@ -1,0 +1,12 @@
+{
+    "prefix": "Your Bot Prefix",
+    "token": "Your Discord Bot Token",
+    "emoji": {
+        "play": "▶️",
+        "stop": "⏹️",
+        "queue": "📄",
+        "success": "☑️",
+        "repeat": "🔁",
+        "error": "❌"
+    }
+}
