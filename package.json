@@ -18,7 +18,7 @@
   "homepage": "https://github.com/skick1234/DisTube-Example#readme",
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
-    "discord.js": "^12.2.0",
-    "distube": "^2.2.1"
+    "discord.js": "^12.3.1",
+    "distube": "^2.5.1"
   }
 }
