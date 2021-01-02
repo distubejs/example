@@ -7,7 +7,7 @@ module.exports = {
  let queue = client.distube.getQueue(message)
         if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`)
         if(!args[0]) return message.channel.send(`${client.emotes.error} | No Filter was provided`)
-         if ([`3d`, `bassboost`, `echo`, `karaoke`, `nightcore`, `vaporwave`, `flanger`, `gate`, `haas`, `reverse`, `surround`, `mcompand`, `phaser`, `tremolo`, `earwax`, `off`].includes(command)){
+         if ([`3d`, `bassboost`, `echo`, `karaoke`, `nightcore`, `vaporwave`, `flanger`, `gate`, `haas`, `reverse`, `surround`, `mcompand`, `phaser`, `tremolo`, `earwax`, `off`].includes(args[0])){
          let filter = client.distube.setFilter(message, args[0])
             const embed = new Discord.MessageEmbed()
                 .setTitle(`Current Queue Filter - ${(filter || "Off")}`)
