@@ -5,7 +5,7 @@ const fs = require("fs")
 const config = require("./config.json")
 
 client.config = require("./config.json")
-client.distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true, leaveOnFinish: true })
+client.distube = new DisTube(client, { emitNewSongOnly: true })
 client.commands = new Discord.Collection()
 client.aliases = new Discord.Collection()
 client.emotes = config.emoji
@@ -46,17 +46,14 @@ client.on("message", async message => {
 
 const status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filter || "Off"}\` | Loop: \`${queue.repeatMode ? queue.repeatMode === 2 ? "All Queue" : "This Song" : "Off"}\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``
 client.distube
-    .on("playSong", (message, queue, song) => message.channel.send(
+    .on("playSong", (queue, song) => queue.textChannel.send(
         `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}`
     ))
-    .on("addSong", (message, queue, song) => message.channel.send(
+    .on("addSong", (queue, song) => queue.textChannel.send(
         `${client.emotes.success} | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
     ))
-    .on("playList", (message, queue, playlist, song) => message.channel.send(
-        `${client.emotes.play} | Play \`${playlist.title}\` playlist (${playlist.total_items} songs).\nRequested by: ${song.user}\nNow playing \`${song.name}\` - \`${song.formattedDuration}\`\n${status(queue)}`
-    ))
-    .on("addList", (message, queue, playlist) => message.channel.send(
-        `${client.emotes.success} | Added \`${playlist.title}\` playlist (${playlist.total_items} songs) to queue\n${status(queue)}`
+    .on("addList", (queue, playlist) => queue.textChannel.send(
+        `${client.emotes.success} | Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to queue\n${status(queue)}`
     ))
     // DisTubeOptions.searchSongs = true
     .on("searchResult", (message, result) => {
@@ -65,6 +62,9 @@ client.distube
     })
     // DisTubeOptions.searchSongs = true
     .on("searchCancel", message => message.channel.send(`${client.emotes.error} | Searching canceled`))
-    .on("error", (message, err) => message.channel.send(`${client.emotes.error} | An error encountered: ${err}`))
+    .on("error", (channel, e) => channel.send(`${client.emotes.error} | An error encountered: ${e}`))
+    .on("empty", channel => channel.send("Voice channel is empty! Leaving the channel..."))
+    .on("searchNoResult", message => message.channel.send(`${client.emotes.error} | No result found!`))
+    .on("finish", channel => channel.send("Finished!"))
 
 client.login(config.token)

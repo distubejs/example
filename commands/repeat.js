@@ -17,7 +17,7 @@ module.exports = {
                 mode = 2
                 break
         }
-        mode = client.distube.setRepeatMode(message, mode)
+        mode = queue.setRepeatMode(mode)
         mode = mode ? mode === 2 ? "Repeat queue" : "Repeat song" : "Off"
         message.channel.send(`${client.emotes.repeat} | Set repeat mode to \`${mode}\``)
     }
