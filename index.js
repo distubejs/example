@@ -65,6 +65,6 @@ client.distube
     .on("error", (channel, e) => channel.send(`${client.emotes.error} | An error encountered: ${e}`))
     .on("empty", channel => channel.send("Voice channel is empty! Leaving the channel..."))
     .on("searchNoResult", message => message.channel.send(`${client.emotes.error} | No result found!`))
-    .on("finish", channel => channel.send("Finished!"))
+    .on("finish", queue => queue.textChannel.send("Finished!"))
 
 client.login(config.token)
