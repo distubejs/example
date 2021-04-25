@@ -3,9 +3,13 @@ const Discord = require("discord.js")
 const client = new Discord.Client()
 const fs = require("fs")
 const config = require("./config.json")
+const SpotifyPlugin = require("@distube/spotify")
 
 client.config = require("./config.json")
-client.distube = new DisTube(client, { emitNewSongOnly: true })
+client.distube = new DisTube(client, {
+    emitNewSongOnly: true,
+    plugins: [new SpotifyPlugin()]
+})
 client.commands = new Discord.Collection()
 client.aliases = new Discord.Collection()
 client.emotes = config.emoji
@@ -44,7 +48,7 @@ client.on("message", async message => {
     }
 })
 
-const status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filter || "Off"}\` | Loop: \`${queue.repeatMode ? queue.repeatMode === 2 ? "All Queue" : "This Song" : "Off"}\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``
+const status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(", ") || "Off"}\` | Loop: \`${queue.repeatMode ? queue.repeatMode === 2 ? "All Queue" : "This Song" : "Off"}\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``
 client.distube
     .on("playSong", (queue, song) => queue.textChannel.send(
         `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}`
@@ -62,7 +66,10 @@ client.distube
     })
     // DisTubeOptions.searchSongs = true
     .on("searchCancel", message => message.channel.send(`${client.emotes.error} | Searching canceled`))
-    .on("error", (channel, e) => channel.send(`${client.emotes.error} | An error encountered: ${e}`))
+    .on("error", (channel, e) => {
+        channel.send(`${client.emotes.error} | An error encountered: ${e}`)
+        console.error(e)
+    })
     .on("empty", channel => channel.send("Voice channel is empty! Leaving the channel..."))
     .on("searchNoResult", message => message.channel.send(`${client.emotes.error} | No result found!`))
     .on("finish", queue => queue.textChannel.send("Finished!"))
