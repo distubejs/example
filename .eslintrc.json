@@ -1,17 +1,12 @@
 {
-    "extends": "standard",
-    "env": {
-        "node": true,
-        "es6": true
+    "extends": ["eslint:recommended", "prettier"],
+    "parserOptions": {
+        "ecmaVersion": 11,
+        "sourceType": "module"
     },
-    "rules": {
-        "indent": [
-            "error",
-            4,
-            {
-                "SwitchCase": 1
-            }
-        ],
-        "quotes": ["error", "double"]
-    }
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "rules": {}
 }

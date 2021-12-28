@@ -26,11 +26,11 @@
         "@distube/spotify": "^1.0.0",
         "discord.js": "^13.4.0",
         "distube": "^3.0.5",
+        "eslint-config-prettier": "^8.3.0",
         "libsodium-wrappers": "^0.7.9"
     },
     "devDependencies": {
         "eslint": "^8.5.0",
-        "eslint-config-standard": "^16.0.3",
         "eslint-plugin-import": "^2.25.3",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^6.0.0",
