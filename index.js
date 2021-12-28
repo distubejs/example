@@ -1,14 +1,22 @@
-const DisTube = require("distube")
+const { DisTube } = require("distube")
 const Discord = require("discord.js")
-const client = new Discord.Client()
+const client = new Discord.Client({
+    intents: [
+        Discord.Intents.FLAGS.GUILDS,
+        Discord.Intents.FLAGS.GUILD_MESSAGES,
+        Discord.Intents.FLAGS.GUILD_VOICE_STATES
+    ]
+})
 const fs = require("fs")
 const config = require("./config.json")
-const SpotifyPlugin = require("@distube/spotify")
+const { SpotifyPlugin } = require("@distube/spotify")
+const { SoundCloudPlugin } = require("@distube/soundcloud")
 
 client.config = require("./config.json")
 client.distube = new DisTube(client, {
+    leaveOnStop: false,
     emitNewSongOnly: true,
-    plugins: [new SpotifyPlugin()]
+    plugins: [new SpotifyPlugin(), new SoundCloudPlugin()]
 })
 client.commands = new Discord.Collection()
 client.aliases = new Discord.Collection()
@@ -28,46 +36,64 @@ fs.readdir("./commands/", (err, files) => {
 
 client.on("ready", () => {
     console.log(`${client.user.tag} is ready to play music.`)
-    const server = client.voice.connections.size
-    client.user.setActivity({ type: "PLAYING", name: `music on ${server} servers` })
 })
 
-client.on("message", async message => {
+client.on("messageCreate", async message => {
+    if (message.author.bot || !message.guild) return
     const prefix = config.prefix
     if (!message.content.startsWith(prefix)) return
     const args = message.content.slice(prefix.length).trim().split(/ +/g)
     const command = args.shift().toLowerCase()
     const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command))
     if (!cmd) return
-    if (cmd.inVoiceChannel && !message.member.voice.channel) return message.channel.send(`${client.emotes.error} | You must be in a voice channel!`)
+    if (cmd.inVoiceChannel && !message.member.voice.channel) {
+        return message.channel.send(`${client.emotes.error} | You must be in a voice channel!`)
+    }
     try {
         cmd.run(client, message, args)
     } catch (e) {
         console.error(e)
-        message.reply(`Error: ${e}`)
+        message.channel.send(`${client.emotes.error} | Error: \`${e}\``)
     }
 })
 
-const status = queue => `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(", ") || "Off"}\` | Loop: \`${queue.repeatMode ? queue.repeatMode === 2 ? "All Queue" : "This Song" : "Off"}\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``
+const status = queue =>
+    `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(", ") || "Off"}\` | Loop: \`${
+        queue.repeatMode ? (queue.repeatMode === 2 ? "All Queue" : "This Song") : "Off"
+    }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``
 client.distube
-    .on("playSong", (queue, song) => queue.textChannel.send(
-        `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}`
-    ))
-    .on("addSong", (queue, song) => queue.textChannel.send(
-        `${client.emotes.success} | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
-    ))
-    .on("addList", (queue, playlist) => queue.textChannel.send(
-        `${client.emotes.success} | Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to queue\n${status(queue)}`
-    ))
+    .on("playSong", (queue, song) =>
+        queue.textChannel.send(
+            `${client.emotes.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${
+                song.user
+            }\n${status(queue)}`
+        )
+    )
+    .on("addSong", (queue, song) =>
+        queue.textChannel.send(
+            `${client.emotes.success} | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`
+        )
+    )
+    .on("addList", (queue, playlist) =>
+        queue.textChannel.send(
+            `${client.emotes.success} | Added \`${playlist.name}\` playlist (${
+                playlist.songs.length
+            } songs) to queue\n${status(queue)}`
+        )
+    )
     // DisTubeOptions.searchSongs = true
     .on("searchResult", (message, result) => {
         let i = 0
-        message.channel.send(`**Choose an option from below**\n${result.map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``).join("\n")}\n*Enter anything else or wait 60 seconds to cancel*`)
+        message.channel.send(
+            `**Choose an option from below**\n${result
+                .map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``)
+                .join("\n")}\n*Enter anything else or wait 60 seconds to cancel*`
+        )
     })
     // DisTubeOptions.searchSongs = true
     .on("searchCancel", message => message.channel.send(`${client.emotes.error} | Searching canceled`))
     .on("error", (channel, e) => {
-        channel.send(`${client.emotes.error} | An error encountered: ${e}`)
+        channel.send(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`)
         console.error(e)
     })
     .on("empty", channel => channel.send("Voice channel is empty! Leaving the channel..."))
