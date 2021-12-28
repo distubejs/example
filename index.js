@@ -81,17 +81,7 @@ client.distube
             } songs) to queue\n${status(queue)}`
         )
     )
-    // DisTubeOptions.searchSongs = true
-    .on("searchResult", (message, result) => {
-        let i = 0
-        message.channel.send(
-            `**Choose an option from below**\n${result
-                .map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``)
-                .join("\n")}\n*Enter anything else or wait 60 seconds to cancel*`
-        )
-    })
-    // DisTubeOptions.searchSongs = true
-    .on("searchCancel", message => message.channel.send(`${client.emotes.error} | Searching canceled`))
+    .on("searchNoResult", (message, query) => message.channel.send("No result found for: " + query))
     .on("error", (channel, e) => {
         channel.send(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`)
         console.error(e)
@@ -99,5 +89,21 @@ client.distube
     .on("empty", channel => channel.send("Voice channel is empty! Leaving the channel..."))
     .on("searchNoResult", message => message.channel.send(`${client.emotes.error} | No result found!`))
     .on("finish", queue => queue.textChannel.send("Finished!"))
+// // DisTubeOptions.searchSongs = true
+// .on("searchResult", (message, result) => {
+//     let i = 0
+//     message.channel.send(
+//         `**Choose an option from below**\n${result
+//             .map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``)
+//             .join("\n")}\n*Enter anything else or wait 60 seconds to cancel*`
+//     )
+// })
+// .on("searchCancel", message => message.channel.send(`${client.emotes.error} | Searching canceled`))
+// .on("searchInvalidAnswer", message =>
+//     message.channel.send(
+//         `${client.emotes.error} | Invalid answer! You have to enter the number in the range of the results`
+//     )
+// )
+// .on("searchDone", () => {})
 
 client.login(config.token)
