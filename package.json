@@ -22,16 +22,16 @@
     "dependencies": {
         "@discordjs/opus": "^0.7.0",
         "@discordjs/voice": "^0.7.5",
-        "@distube/soundcloud": "^1.0.0",
-        "@distube/spotify": "^1.0.0",
-        "discord.js": "^13.4.0",
-        "distube": "^3.0.5",
+        "@distube/soundcloud": "^1.1.0",
+        "@distube/spotify": "^1.1.0",
+        "discord.js": "^13.6.0",
+        "distube": "^3.1.0",
         "eslint-config-prettier": "^8.3.0",
         "libsodium-wrappers": "^0.7.9"
     },
     "devDependencies": {
-        "eslint": "^8.5.0",
-        "eslint-plugin-import": "^2.25.3",
+        "eslint": "^8.6.0",
+        "eslint-plugin-import": "^2.25.4",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^6.0.0",
         "prettier": "^2.5.1"
