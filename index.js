@@ -16,7 +16,14 @@ client.config = require("./config.json")
 client.distube = new DisTube(client, {
     leaveOnStop: false,
     emitNewSongOnly: true,
-    plugins: [new SpotifyPlugin(), new SoundCloudPlugin()]
+    emitAddSongWhenCreatingQueue: false,
+    emitAddListWhenCreatingQueue: false,
+    plugins: [
+        new SpotifyPlugin({
+            emitEventsAfterFetching: true
+        }),
+        new SoundCloudPlugin()
+    ]
 })
 client.commands = new Discord.Collection()
 client.aliases = new Discord.Collection()
