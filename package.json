@@ -25,8 +25,8 @@
     "@distube/soundcloud": "^1.1.0",
     "@distube/spotify": "^1.2.1",
     "@distube/yt-dlp": "^0.0.2",
-    "discord.js": "^13.6.0",
-    "distube": "^3.3.1",
+    "discord.js": "^14.0.0-dev.1644235768.b936103",
+    "distube": "^4.0.0-dev.1",
     "eslint-config-prettier": "^8.3.0",
     "libsodium-wrappers": "^0.7.9"
   },

@@ -2,9 +2,9 @@ const { DisTube } = require('distube')
 const Discord = require('discord.js')
 const client = new Discord.Client({
   intents: [
-    Discord.Intents.FLAGS.GUILDS,
-    Discord.Intents.FLAGS.GUILD_MESSAGES,
-    Discord.Intents.FLAGS.GUILD_VOICE_STATES
+    Discord.GatewayIntentBits.Guilds,
+    Discord.GatewayIntentBits.GuildMessages,
+    Discord.GatewayIntentBits.GuildVoiceStates
   ]
 })
 const fs = require('fs')
@@ -25,8 +25,7 @@ client.distube = new DisTube(client, {
     }),
     new SoundCloudPlugin(),
     new YtDlpPlugin()
-  ],
-  youtubeDL: false
+  ]
 })
 client.commands = new Discord.Collection()
 client.aliases = new Discord.Collection()
