@@ -21,16 +21,17 @@
   "homepage": "https://github.com/distubejs/example#readme",
   "dependencies": {
     "@discordjs/opus": "^0.7.0",
-    "@discordjs/voice": "^0.7.5",
+    "@discordjs/voice": "^0.8.0",
     "@distube/soundcloud": "^1.1.0",
-    "@distube/spotify": "^1.1.0",
+    "@distube/spotify": "^1.2.1",
+    "@distube/yt-dlp": "^0.0.2",
     "discord.js": "^13.6.0",
-    "distube": "^3.1.1",
+    "distube": "^3.3.1",
     "eslint-config-prettier": "^8.3.0",
     "libsodium-wrappers": "^0.7.9"
   },
   "devDependencies": {
-    "eslint": "^8.7.0",
+    "eslint": "^8.8.0",
     "eslint-config-standard": "^17.0.0-0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",

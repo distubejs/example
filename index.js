@@ -11,6 +11,7 @@ const fs = require('fs')
 const config = require('./config.json')
 const { SpotifyPlugin } = require('@distube/spotify')
 const { SoundCloudPlugin } = require('@distube/soundcloud')
+const { YtDlpPlugin } = require('@distube/yt-dlp')
 
 client.config = require('./config.json')
 client.distube = new DisTube(client, {
@@ -22,8 +23,10 @@ client.distube = new DisTube(client, {
     new SpotifyPlugin({
       emitEventsAfterFetching: true
     }),
-    new SoundCloudPlugin()
-  ]
+    new SoundCloudPlugin(),
+    new YtDlpPlugin()
+  ],
+  youtubeDL: false
 })
 client.commands = new Discord.Collection()
 client.aliases = new Discord.Collection()
