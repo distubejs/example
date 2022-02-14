@@ -5,9 +5,12 @@ module.exports = {
   run: async (client, message, args) => {
     const queue = client.distube.getQueue(message)
     if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`)
-    if (args[0] === 'off' && queue.filters?.length) queue.setFilter(false)
-    else if (Object.keys(client.distube.filters).includes(args[0])) queue.setFilter(args[0])
-    else if (args[0]) return message.channel.send(`${client.emotes.error} | Not a valid filter`)
-    message.channel.send(`Current Queue Filter: \`${queue.filters.join(', ') || 'Off'}\``)
+    const filter = args[0]
+    if (filter === 'off' && queue.filters.size) queue.filters.clear()
+    else if (Object.keys(client.distube.filters).includes(filter)) {
+      if (queue.filters.has(filter)) queue.filters.remove(filter)
+      else queue.filters.add(filter)
+    } else if (args[0]) return message.channel.send(`${client.emotes.error} | Not a valid filter`)
+    message.channel.send(`Current Queue Filter: \`${queue.filters.names.join(', ') || 'Off'}\``)
   }
 }

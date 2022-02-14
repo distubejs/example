@@ -67,7 +67,7 @@ client.on('messageCreate', async message => {
 })
 
 const status = queue =>
-  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.join(', ') || 'Off'}\` | Loop: \`${
+  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.names.join(', ') || 'Off'}\` | Loop: \`${
     queue.repeatMode ? (queue.repeatMode === 2 ? 'All Queue' : 'This Song') : 'Off'
   }\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``
 client.distube
@@ -91,8 +91,8 @@ client.distube
     )
   )
   .on('error', (channel, e) => {
-    channel.send(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`)
-    console.error(e)
+    if (channel) channel.send(`${client.emotes.error} | An error encountered: ${e.toString().slice(0, 1974)}`)
+    else console.error(e)
   })
   .on('empty', channel => channel.send('Voice channel is empty! Leaving the channel...'))
   .on('searchNoResult', (message, query) =>

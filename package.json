@@ -24,14 +24,14 @@
     "@discordjs/voice": "^0.8.0",
     "@distube/soundcloud": "^1.1.0",
     "@distube/spotify": "^1.2.1",
-    "@distube/yt-dlp": "^0.0.2",
-    "discord.js": "^14.0.0-dev.1644235768.b936103",
-    "distube": "^4.0.0-dev.1",
+    "@distube/yt-dlp": "^1.0.2",
+    "discord.js": "^14.0.0-dev.1644797187.0dfdb2c",
+    "distube": "^4.0.0-dev.2",
     "eslint-config-prettier": "^8.3.0",
     "libsodium-wrappers": "^0.7.9"
   },
   "devDependencies": {
-    "eslint": "^8.8.0",
+    "eslint": "^8.9.0",
     "eslint-config-standard": "^17.0.0-0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
