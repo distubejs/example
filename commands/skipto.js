@@ -10,7 +10,7 @@ module.exports = {
     const num = Number(args[0])
     if (isNaN(num)) return message.channel.send(`${client.emotes.error} | Please enter a valid number!`)
     await client.distube.jump(message, num).then((queue) => {
-      msg.edit({ content: `Skipped to: ${num}` });
+      message.channel.send({ content: `Skipped to: ${num}` })
     })
   }
 }
