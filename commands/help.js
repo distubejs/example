@@ -6,7 +6,7 @@ module.exports = {
   run: async (client, message) => {
     message.channel.send({
       embeds: [
-        new Discord.MessageEmbed()
+        new Discord.EmbedBuilder()
           .setTitle('Commands')
           .setDescription(client.commands.map(cmd => `\`${cmd.name}\``).join(', '))
           .setColor('BLURPLE')
