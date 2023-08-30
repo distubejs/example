@@ -9,7 +9,7 @@ module.exports = {
         new Discord.EmbedBuilder()
           .setTitle('Commands')
           .setDescription(client.commands.map(cmd => `\`${cmd.name}\``).join(', '))
-          .setColor('BLURPLE')
+          .setColor('Blurple')
       ]
     })
   }
