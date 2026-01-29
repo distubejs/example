@@ -34,7 +34,7 @@
   "devDependencies": {
     "@types/node": "^20.14.1",
     "discord.js": "^14.15.2",
-    "eslint": "^8.57.0",
+    "eslint": "^9.26.0",
     "eslint-config-distube": "^1.7.0",
     "prettier": "^3.3.0",
     "ts-node": "^10.9.2",
